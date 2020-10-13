@@ -1,4 +1,6 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
+import 'package:pass_man/core/error/failures.dart';
 import 'package:pass_man/features/generate_password/data/data_sources/capitalize.dart';
 import 'package:pass_man/features/generate_password/data/data_sources/ceaser_cipher.dart';
 import 'package:pass_man/features/generate_password/data/data_sources/gather_characters.dart';
@@ -7,50 +9,61 @@ import 'package:pass_man/features/generate_password/data/data_sources/gather_two
 import 'package:pass_man/features/generate_password/data/data_sources/num_of_vow_cons.dart';
 import 'package:pass_man/features/generate_password/data/data_sources/num_to_words.dart';
 import 'package:pass_man/features/generate_password/data/data_sources/reverse.dart';
+import 'package:pass_man/features/generate_password/domain/entities/password.dart';
 
-class GeneratePassword {
+abstract class PasswordDataSource {
+  Either<Failure, Password> computePassword();
+}
+
+class PasswordDataSourceImpl extends PasswordDataSource {
   final String domain;
   final String username;
-  final String protocol = 'zxwxdpecenrzxwxdflcvnczxnxdccx*cczxnxusvx+cczxsxdvcx{zxsxdtcx+zxwxulfclnrzxwxutcnwltcaxrzxnxdvcx-xucc';
+  final String protocol; // = 'zxwxdpecenrzxwxdflcvnczxnxdccx*cczxnxusvx+cczxsxdvcx{zxsxdtcx+zxwxulfclnrzxwxutcnwltcaxrzxnxdvcx-xucc';
+  Either<Failure, Password> password;
 
-  int numOfVowOnDomain;
-  int numOfVowOnUser;
-  int numOfConsOnDomain;
-  int numOfConsOnUser;
+  PasswordDataSourceImpl({@required this.domain, @required this.username, @required this.protocol});
 
-  GeneratePassword({@required this.domain, @required this.username}) {
-    numOfVowOnDomain = numOfVowelsIn(str: domain);
-    numOfVowOnUser = numOfVowelsIn(str: username);
-    numOfConsOnDomain = numOfConsonantsIn(str: domain);
-    numOfConsOnUser = numOfConsonantsIn(str: username);
-
-    computePassword();
-  }
-
-  String computePassword() {
+  Either<Failure, Password> computePassword() {
     StringBuffer password = new StringBuffer();
     List<String> seperatedProtocol = splitProtocol(protocol);
-    // print('❤❤❤❤❤');
-    password.write(shrinkTheDomain(splitSubProtocol(seperatedProtocol, 0)));
-    // print("1:" + password.toString());
-    password.write(ceaserCipherProtocol(splitSubProtocol(seperatedProtocol, 1)));
-    // print("2:" + password.toString());
-    password.write(countProtocol(splitSubProtocol(seperatedProtocol, 2)));
-    // print("3:" + password.toString());
-    password.write(squareProtocol(splitSubProtocol(seperatedProtocol, 3)));
-    // print("4:" + password.toString());
-    password.write(insertBracketProtocol(splitSubProtocol(seperatedProtocol, 4)));
-    // print("5:" + password.toString());
-    password.write(insertOperationProtocol(splitSubProtocol(seperatedProtocol, 5)));
-    // print("6:" + password.toString());
-    password.write(twoUsernameCharsProtocol(splitSubProtocol(seperatedProtocol, 6)));
-    // print("7:" + password.toString());
-    password.write(numToCharsProtocol(splitSubProtocol(seperatedProtocol, 7)));
-    // print("8:" + password.toString());
-    password.write(vctMultipleVCT(splitSubProtocol(seperatedProtocol, 8)));
-    // print("9:" + password.toString());
-    return password.toString();
+    try {
+      password.write(shrinkTheDomain(splitSubProtocol(seperatedProtocol, 0), domain));
+      password.write(ceaserCipherProtocol(splitSubProtocol(seperatedProtocol, 1), domain, username));
+      password.write(countProtocol(splitSubProtocol(seperatedProtocol, 2), domain, username));
+      password.write(squareProtocol(splitSubProtocol(seperatedProtocol, 3), domain, username));
+      password.write(insertBracketProtocol(splitSubProtocol(seperatedProtocol, 4), domain, username));
+      password.write(insertOperationProtocol(splitSubProtocol(seperatedProtocol, 5), domain, username));
+      password.write(twoUsernameCharsProtocol(splitSubProtocol(seperatedProtocol, 6), username));
+      password.write(numToCharsProtocol(splitSubProtocol(seperatedProtocol, 7), domain, username));
+      password.write(vctMultipleVCT(splitSubProtocol(seperatedProtocol, 8), domain, username));
+      return Right(Password(password: password.toString()));
+    } catch (e) {}
   }
+
+  // String computePassword() {
+  //   StringBuffer password = new StringBuffer();
+  //   List<String> seperatedProtocol = splitProtocol(protocol);
+  //   // print('❤❤❤❤❤');
+  //   password.write(shrinkTheDomain(splitSubProtocol(seperatedProtocol, 0), domain));
+  //   // print("1:" + password.toString());
+  //   password.write(ceaserCipherProtocol(splitSubProtocol(seperatedProtocol, 1), domain, username));
+  //   // print("2:" + password.toString());
+  //   password.write(countProtocol(splitSubProtocol(seperatedProtocol, 2), domain, username));
+  //   // print("3:" + password.toString());
+  //   password.write(squareProtocol(splitSubProtocol(seperatedProtocol, 3), domain, username));
+  //   // print("4:" + password.toString());
+  //   password.write(insertBracketProtocol(splitSubProtocol(seperatedProtocol, 4), domain, username));
+  //   // print("5:" + password.toString());
+  //   password.write(insertOperationProtocol(splitSubProtocol(seperatedProtocol, 5), domain, username));
+  //   // print("6:" + password.toString());
+  //   password.write(twoUsernameCharsProtocol(splitSubProtocol(seperatedProtocol, 6), username));
+  //   // print("7:" + password.toString());
+  //   password.write(numToCharsProtocol(splitSubProtocol(seperatedProtocol, 7), domain, username));
+  //   // print("8:" + password.toString());
+  //   password.write(vctMultipleVCT(splitSubProtocol(seperatedProtocol, 8), domain, username));
+  //   // print("9:" + password.toString());
+  //   return password.toString();
+  // }
 
   List<String> splitProtocol(String protocol) {
     List<String> seperatedProtocol = protocol.split('z');
@@ -67,7 +80,7 @@ class GeneratePassword {
     return tempo;
   }
 
-  String shrinkTheDomain(List<String> subProtocolOne) {
+  String shrinkTheDomain(List<String> subProtocolOne, String domain) {
     String parsedString;
     if (subProtocolOne[2] == 'po')
       parsedString = GatherCharacters.gatherOddCharacters(str: domain);
@@ -90,7 +103,7 @@ class GeneratePassword {
     return reversedString;
   }
 
-  String ceaserCipherProtocol(List<String> subProtocolTwo) {
+  String ceaserCipherProtocol(List<String> subProtocolTwo, String domain, String username) {
     String domainOrUser;
     if (subProtocolTwo[1] == 'xd')
       domainOrUser = domain;
@@ -123,7 +136,7 @@ class GeneratePassword {
       return Reverse.reverse(str: cipheredString);
   }
 
-  String countProtocol(List<String> subProtocolThree) {
+  String countProtocol(List<String> subProtocolThree, String domain, String username) {
     String domainOrUser;
     if (subProtocolThree[1] == 'xd')
       domainOrUser = domain;
@@ -159,7 +172,7 @@ class GeneratePassword {
       return (countOne / countTwo).toString();
   }
 
-  String squareProtocol(List<String> subProtocolFour) {
+  String squareProtocol(List<String> subProtocolFour, String domain, String username) {
     String domainOrUser;
     if (subProtocolFour[1] == 'xd')
       domainOrUser = domain;
@@ -192,7 +205,7 @@ class GeneratePassword {
       return (squaredNumber - count).toString();
   }
 
-  String insertBracketProtocol(List<String> subProtocolFive) {
+  String insertBracketProtocol(List<String> subProtocolFive, String domain, String username) {
     String domainOrUser;
     if (subProtocolFive[1] == 'xd')
       domainOrUser = domain;
@@ -226,7 +239,7 @@ class GeneratePassword {
     return ']';
   }
 
-  String insertOperationProtocol(List<String> subProtocolSix) {
+  String insertOperationProtocol(List<String> subProtocolSix, String domain, String username) {
     String domainOrUser;
     if (subProtocolSix[1] == 'xd')
       domainOrUser = domain;
@@ -243,7 +256,7 @@ class GeneratePassword {
       return '/';
   }
 
-  String twoUsernameCharsProtocol(List<String> subProtocolSeven) {
+  String twoUsernameCharsProtocol(List<String> subProtocolSeven, String username) {
     //TODO: can add doamin or username
     String twoChars;
     if (subProtocolSeven[2] == 'lf')
@@ -272,7 +285,7 @@ class GeneratePassword {
     return reversedChars;
   }
 
-  String numToCharsProtocol(List<String> subProtocolEight) {
+  String numToCharsProtocol(List<String> subProtocolEight, String domain, String username) {
     String domainOrUser;
     if (subProtocolEight[1] == 'xd')
       domainOrUser = domain;
@@ -316,7 +329,7 @@ class GeneratePassword {
     return reversedChars;
   }
 
-  String vctMultipleVCT(List<String> subProtocolNine) {
+  String vctMultipleVCT(List<String> subProtocolNine, String domain, String username) {
     String domainOrUserOne;
     if (subProtocolNine[1] == 'xd')
       domainOrUserOne = domain;

@@ -1,0 +1,6 @@
+enum SignInErrorCode {
+  NETWORK_ERROR,
+  USER_CANCELLED,
+  SIGN_IN_FAILED,
+  SIGN_IN_REQUIRED,
+}

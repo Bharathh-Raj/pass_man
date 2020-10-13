@@ -1,24 +1,33 @@
 import 'dart:math';
 
-class Protocol {
-  Random random;
-  StringBuffer protocol;
-  Protocol() {
-    random = new Random();
-    protocol = new StringBuffer();
+import 'package:pass_man/features/generate_protocol/domain/entities/protocol.dart';
 
-    shrinkTheDomain();
-    ceaserCipherProtocol();
-    countProtocol();
-    squareProtocol();
-    insertBracketProtocol();
-    insertOperationProtocol();
-    twoUserNameChars();
-    numToChars();
-    vctMultipleVCT();
+abstract class ProtocolDataSource {
+  Protocol generateProtocol();
+}
+
+class ProtocolDataSourceImpl {
+  Random random;
+  ProtocolDataSourceImpl() {
+    random = new Random();
   }
 
-  void shrinkTheDomain() {
+  Protocol generateProtocol() {
+    StringBuffer protocol = new StringBuffer();
+    protocol.write(shrinkTheDomain());
+    protocol.write(ceaserCipherProtocol());
+    protocol.write(countProtocol());
+    protocol.write(squareProtocol());
+    protocol.write(insertBracketProtocol());
+    protocol.write(insertOperationProtocol());
+    protocol.write(twoUserNameChars());
+    protocol.write(numToChars());
+    protocol.write(vctMultipleVCT());
+    return Protocol(protocol: protocol.toString());
+  }
+
+  String shrinkTheDomain() {
+    StringBuffer protocol;
     protocol.write('zxwxd');
 
     int parseOddOrEven = random.nextInt(2);
@@ -42,9 +51,11 @@ class Protocol {
       protocol.write('nr'); //nr -> not reverse
 
     print(protocol.toString());
+    return protocol.toString();
   }
 
-  void ceaserCipherProtocol() {
+  String ceaserCipherProtocol() {
+    StringBuffer protocol;
     protocol.write('zxw');
     int domainOrUser = random.nextInt(2);
     if (domainOrUser == 0)
@@ -77,9 +88,11 @@ class Protocol {
       protocol.write('ca'); //ca -> capital all
 
     print(protocol.toString());
+    return protocol.toString();
   }
 
-  void countProtocol() {
+  String countProtocol() {
+    StringBuffer protocol;
     protocol.write('zxn');
     int domainOrUser = random.nextInt(2);
     if (domainOrUser == 0)
@@ -121,9 +134,11 @@ class Protocol {
     else
       protocol.write('cc'); //cc -> consonant count
     print(protocol.toString());
+    return protocol.toString();
   }
 
-  void squareProtocol() {
+  String squareProtocol() {
+    StringBuffer protocol;
     protocol.write('zxn');
     int domainOrUser = random.nextInt(2);
     if (domainOrUser == 0)
@@ -154,9 +169,11 @@ class Protocol {
       protocol.write('vc'); // vc -> vowel count
 
     print(protocol.toString());
+    return protocol.toString();
   }
 
-  void insertBracketProtocol() {
+  String insertBracketProtocol() {
+    StringBuffer protocol;
     protocol.write('zxs');
     int domainOrUser = random.nextInt(2);
     if (domainOrUser == 0)
@@ -187,9 +204,11 @@ class Protocol {
     //   protocol.write('x]'); //x] -> ']' symbol should be inserted
 
     print(protocol.toString());
+    return protocol.toString();
   }
 
-  void insertOperationProtocol() {
+  String insertOperationProtocol() {
+    StringBuffer protocol;
     protocol.write('zxs');
     int domainOrUser = random.nextInt(2);
     if (domainOrUser == 0)
@@ -210,9 +229,11 @@ class Protocol {
       protocol.write('x/'); //x/ -> operation should be divide
 
     print(protocol.toString());
+    return protocol.toString();
   }
 
-  void twoUserNameChars() {
+  String twoUserNameChars() {
+    StringBuffer protocol;
     protocol.write('zxwxu');
 
     int whichPosition = random.nextInt(3);
@@ -240,9 +261,11 @@ class Protocol {
       protocol.write('nr'); //nr -> not reverse
 
     print(protocol.toString());
+    return protocol.toString();
   }
 
-  void numToChars() {
+  String numToChars() {
+    StringBuffer protocol;
     protocol.write('zxw');
 
     int domainOrUser = random.nextInt(2);
@@ -286,9 +309,11 @@ class Protocol {
       protocol.write('nr'); //nr -> not reverse
 
     print(protocol.toString());
+    return protocol.toString();
   }
 
-  void vctMultipleVCT() {
+  String vctMultipleVCT() {
+    StringBuffer protocol;
     protocol.write('zxn');
 
     int domainOrUserOne = random.nextInt(2);
@@ -326,5 +351,8 @@ class Protocol {
       protocol.write('tc'); //tc -> total count
     else
       protocol.write('vc'); // vc -> vowel count
+
+    print(protocol.toString());
+    return protocol.toString();
   }
 }

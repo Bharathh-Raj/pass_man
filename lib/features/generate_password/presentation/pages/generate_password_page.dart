@@ -1,12 +1,6 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pass_man/core/widgets/background_gradient.dart';
-import 'package:pass_man/features/generate_password/data/data_sources/gather_characters.dart';
-import 'package:pass_man/features/generate_password/data/data_sources/generate_password.dart';
-import 'package:pass_man/features/generate_password/data/data_sources/generate_protocol.dart';
-import 'package:pass_man/features/generate_password/data/data_sources/sub_passwords.dart';
 
 class GeneratePasswordPage extends StatelessWidget {
   TextEditingController domainController = new TextEditingController();
@@ -35,12 +29,41 @@ class GeneratePasswordPage extends StatelessWidget {
             ),
           ),
           Expanded(
-            flex: 1,
-            child: TextFormField(
-              decoration: InputDecoration(labelText: 'Enter the domain name:'),
-              controller: domainController,
-            ),
-          ),
+              flex: 1,
+              child: Theme(
+                data: ThemeData(
+                  primaryColor: Colors.redAccent,
+                  primaryColorDark: Colors.red,
+                ),
+                child: TextField(
+                    decoration: InputDecoration(
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Colors.blueAccent,
+                    ),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  hintText: "Enter the Domain name here",
+                )),
+              )),
+          Expanded(
+              flex: 1,
+              child: Theme(
+                data: ThemeData(
+                  primaryColor: Colors.redAccent,
+                  primaryColorDark: Colors.red,
+                ),
+                child: TextField(
+                    decoration: InputDecoration(
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Colors.blueAccent,
+                    ),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  hintText: "Enter the User name here",
+                )),
+              )),
           Expanded(
             flex: 1,
             child: TextFormField(
@@ -53,7 +76,7 @@ class GeneratePasswordPage extends StatelessWidget {
                   icon: Icon(Icons.add),
                   onPressed: () {
                     // Protocol protocol = new Protocol();
-                    GeneratePassword password = new GeneratePassword(domain: 'google', username: 'bharath');
+                    // GeneratePassword password = new GeneratePassword(domain: 'google', username: 'bharath');
                   }
                   // generateProtocol(domainController.text.toString()),
                   )),

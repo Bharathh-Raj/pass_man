@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "546720237796",
+    "firebase_url": "https://passman-1b6bc.firebaseio.com",
+    "project_id": "passman-1b6bc",
+    "storage_bucket": "passman-1b6bc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:546720237796:android:dd17a5688620b5196544f1",
+        "android_client_info": {
+          "package_name": "com.example.pass_man"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "546720237796-328rh6er59is6vessbs8djherfor6g4j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.pass_man",
+            "certificate_hash": "d38b15476ac392fd8b3abc5b349724e9a1dd76d9"
+          }
+        },
+        {
+          "client_id": "546720237796-c92eirs3v440329kkhb4l95h39bgsr0m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD-BwuHrIMs2tsuLpXQLkW39BHL98Dtz6M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "546720237796-c92eirs3v440329kkhb4l95h39bgsr0m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
