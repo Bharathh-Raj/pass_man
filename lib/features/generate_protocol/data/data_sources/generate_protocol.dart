@@ -27,7 +27,7 @@ class ProtocolDataSourceImpl {
   }
 
   String shrinkTheDomain() {
-    StringBuffer protocol;
+    StringBuffer protocol = new StringBuffer();
     protocol.write('zxwxd');
 
     int parseOddOrEven = random.nextInt(2);
@@ -55,7 +55,7 @@ class ProtocolDataSourceImpl {
   }
 
   String ceaserCipherProtocol() {
-    StringBuffer protocol;
+    StringBuffer protocol = new StringBuffer();
     protocol.write('zxw');
     int domainOrUser = random.nextInt(2);
     if (domainOrUser == 0)
@@ -92,7 +92,7 @@ class ProtocolDataSourceImpl {
   }
 
   String countProtocol() {
-    StringBuffer protocol;
+    StringBuffer protocol = new StringBuffer();
     protocol.write('zxn');
     int domainOrUser = random.nextInt(2);
     if (domainOrUser == 0)
@@ -138,7 +138,7 @@ class ProtocolDataSourceImpl {
   }
 
   String squareProtocol() {
-    StringBuffer protocol;
+    StringBuffer protocol = new StringBuffer();
     protocol.write('zxn');
     int domainOrUser = random.nextInt(2);
     if (domainOrUser == 0)
@@ -173,7 +173,7 @@ class ProtocolDataSourceImpl {
   }
 
   String insertBracketProtocol() {
-    StringBuffer protocol;
+    StringBuffer protocol = new StringBuffer();
     protocol.write('zxs');
     int domainOrUser = random.nextInt(2);
     if (domainOrUser == 0)
@@ -208,7 +208,7 @@ class ProtocolDataSourceImpl {
   }
 
   String insertOperationProtocol() {
-    StringBuffer protocol;
+    StringBuffer protocol = new StringBuffer();
     protocol.write('zxs');
     int domainOrUser = random.nextInt(2);
     if (domainOrUser == 0)
@@ -233,7 +233,7 @@ class ProtocolDataSourceImpl {
   }
 
   String twoUserNameChars() {
-    StringBuffer protocol;
+    StringBuffer protocol = new StringBuffer();
     protocol.write('zxwxu');
 
     int whichPosition = random.nextInt(3);
@@ -265,7 +265,7 @@ class ProtocolDataSourceImpl {
   }
 
   String numToChars() {
-    StringBuffer protocol;
+    StringBuffer protocol = new StringBuffer();
     protocol.write('zxw');
 
     int domainOrUser = random.nextInt(2);
@@ -313,7 +313,7 @@ class ProtocolDataSourceImpl {
   }
 
   String vctMultipleVCT() {
-    StringBuffer protocol;
+    StringBuffer protocol = new StringBuffer();
     protocol.write('zxn');
 
     int domainOrUserOne = random.nextInt(2);

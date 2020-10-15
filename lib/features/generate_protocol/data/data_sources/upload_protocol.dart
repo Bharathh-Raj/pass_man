@@ -8,22 +8,22 @@ import 'package:pass_man/core/error/failures.dart';
 import 'package:pass_man/features/generate_protocol/domain/entities/protocol.dart';
 
 abstract class UploadProtocolAbstract {
-  Future<Either<Failure, void>> uploadProtocol({@required String uid, @required Protocol protocol});
+  Future<Either<Failure, void>> uploadProtocol({@required String docID, @required Protocol protocol});
 }
 
 class UploadProtocol implements UploadProtocolAbstract {
   final CollectionReference firebaseProtocol = FirebaseFirestore.instance.collection('Protocol');
   @override
-  Future<Either<Failure, void>> uploadProtocol({@required String uid, @required Protocol protocol}) async {
-    return await Task(() => _uploadProtocol(uid: uid, protocol: protocol))
+  Future<Either<Failure, void>> uploadProtocol({@required String docID, @required Protocol protocol}) async {
+    return await Task(() => _uploadProtocol(docID: docID, protocol: protocol))
         .attempt()
         .map((either) => either.leftMap((obj) => obj as Failure))
         .run();
   }
 
-  Future<void> _uploadProtocol({@required String uid, @required Protocol protocol}) async {
+  Future<void> _uploadProtocol({@required String docID, @required Protocol protocol}) async {
     try {
-      await firebaseProtocol.doc(uid).set(protocol.toJson());
+      await firebaseProtocol.doc(docID).set(protocol.toJson());
     } catch (e) {
       if (e is PlatformException)
         throw PlatformFailure(message: e.message);

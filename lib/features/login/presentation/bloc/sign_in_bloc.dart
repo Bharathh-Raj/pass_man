@@ -26,7 +26,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
 
   Stream<SignInState> mapCheckSignInEventToState() async* {
     yield LoadingState();
-    final User _user = _auth.getUser();
+    final User _user = GoogleAuth.getUser();
     if (_user == null)
       yield SignInInitialState();
     else
@@ -38,7 +38,6 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
     try {
       UserCredential userCredential = await _auth.signInWithGoogle();
       print("❤❤❤" + userCredential.user.email);
-
       yield GoogleSignInSuccessState(user: userCredential.user);
     } catch (e) {
       if (e is PlatformException && e.code == GoogleSignIn.kNetworkError) {
@@ -65,7 +64,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
 
   Stream<SignInState> mapGoogleSignOutEventToState() async* {
     yield LoadingState();
-    final User _user = _auth.getUser();
+    final User _user = GoogleAuth.getUser();
     try {
       if (_user != null) {
         _auth.signOutWithGoogle();

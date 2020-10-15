@@ -10,7 +10,7 @@ abstract class FetchLocalProtocol {
 class FetchLocalProtocolImpl extends FetchLocalProtocol {
   @override
   Future<Either<Failure, Protocol>> fetchLocalProtocol() async {
-    return await Task(() => _getProtocol()).attempt().map((either) => either.leftMap((obj) => obj as LocalProtocolFaillure)).run();
+    return Task(() => _getProtocol()).attempt().map((either) => either.leftMap((obj) => obj as LocalProtocolFaillure)).run();
   }
 
   Future<Protocol> _getProtocol() async {
@@ -20,6 +20,7 @@ class FetchLocalProtocolImpl extends FetchLocalProtocol {
       throw LocalProtocolFaillure();
     else {
       Protocol protocol = new Protocol(protocol: protocolStr);
+      print('Local Protocol Fetched😍😍');
       return protocol;
     }
   }

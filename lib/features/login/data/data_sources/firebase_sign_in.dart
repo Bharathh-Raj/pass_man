@@ -2,15 +2,19 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class GoogleAuth {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  static final FirebaseAuth auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
-  User getUser() {
-    return _auth.currentUser;
+  static User getUser() {
+    return auth.currentUser;
   }
 
-  Future<String> getUserId() async {
-    final User user = _auth.currentUser;
+  static String getUserEmail() {
+    return auth.currentUser.email;
+  }
+
+  static Future<String> getUserId() async {
+    final User user = auth.currentUser;
     final uid = user.uid;
     return uid;
   }
@@ -29,11 +33,11 @@ class GoogleAuth {
     );
 
     // Once signed in, return the UserCredential
-    return await _auth.signInWithCredential(credential);
+    return await auth.signInWithCredential(credential);
   }
 
   void signOutWithGoogle() async {
     await _googleSignIn.signOut();
-    await _auth.signOut();
+    await auth.signOut();
   }
 }

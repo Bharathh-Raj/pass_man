@@ -12,6 +12,10 @@ class FormatFailure extends Failure {
   FormatFailure({String message}) : super(message: message);
 }
 
+class ProtocolGenerationFailure extends Failure {
+  ProtocolGenerationFailure({String message}) : super(message: message);
+}
+
 class PasswordGenerationFailure extends Failure {
   PasswordGenerationFailure({String message}) : super(message: message);
 }
@@ -31,4 +35,8 @@ class PlatformFailure extends Failure {
 
 class SocketFailure extends Failure {
   SocketFailure({String message}) : super(message: message);
+}
+
+class FirebaseFailure extends Failure {
+  FirebaseFailure({String message}) : super(message: message);
 }
